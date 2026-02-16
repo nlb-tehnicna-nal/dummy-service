@@ -27,3 +27,12 @@
         - če health-check ne vrne OK statusa, naj job vrne napako.
 
 5) To je osnovni pipeline, ki zgradi in zažene service in je primeren za domačo uporabo. Kakšne prilagoditve ali dodatne korake bi predlagal, če veš, da na tem servisu dela več ljudi in teče v okolju, kjer so varnost, zanesljivost in sledljivost izjemno pomembni?
+    - Če bi na servisu delalo več ljudi bi dodal še nekaj omejitev:
+        - Povečal bi število approvalov za sprejem PR ali pa bi dodal "Code Ownerje" 
+        - Ustvaril bi ACC in TEST okolje, razvijalci vse svoje spremembe najprej "zmergali" v ACC pred produkcijskim okoljem
+        - Vse okoljske spremeljivke bi hranil v HashiCorp Vault ali GitHub Secrets
+        - V pipeline bi dodal bi orodje za skeniranje ranljivost (Trivy ali Snyk)
+        - Implementiral bi Blue-Green Deployment strategijo 
+        - Omejil bi CPU in RAM v docker-compose ali Kubernetes (da zaščitim ostale servise)
+        - Dodal bi logging in metrike (Prometheus in Graphana)
+        
