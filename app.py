@@ -5,7 +5,7 @@ app = Flask(__name__)
 
 @app.get("/health")
 def health():
-    return jsonify({"health": "OK"})
+    return jsonify({"health": "NOT_OK"}), 500
 
 
 if __name__ == "__main__":
