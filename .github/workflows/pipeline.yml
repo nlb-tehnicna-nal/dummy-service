@@ -16,6 +16,7 @@ jobs:
       packages: write
     outputs:
       version: ${{ steps.meta.outputs.version }}
+      image: ${{ steps.meta.outputs.tags }}
     
     steps:
       - name: Checkout code
@@ -46,13 +47,23 @@ jobs:
   test-service:
     needs: build-and-push
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: read
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
 
+      - name: Log in to GHCR
+        uses: docker/login-action@v2
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
       - name: Run service via Compose
         env:
-          APP_VERSION: sha-${{ needs.build-and-push.outputs.version }}
+          DOCKER_IMAGE: ${{ needs.build-and-push.outputs.image }}
         run: |
           docker compose up -d
           
