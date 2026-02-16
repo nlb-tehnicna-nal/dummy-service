@@ -1,0 +1,10 @@
+services:
+  dummy-service:
+    image: ${DOCKER_IMAGE:-dummy-service:latest}
+    ports:
+      - "8000:8080" 
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
